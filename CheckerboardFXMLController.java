@@ -12,7 +12,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -28,7 +30,13 @@ public class CheckerboardFXMLController implements Initializable, Startable {
     private Stage stage;
     
     @FXML
-    AnchorPane boardPane;
+    private AnchorPane boardPane;
+    
+    @FXML
+    private VBox vBox;
+    
+    @FXML
+    private MenuBar menuBar;
     
     CheckerBoard board;
     
@@ -38,7 +46,7 @@ public class CheckerboardFXMLController implements Initializable, Startable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        boardPane.widthProperty().addListener(new ChangeListener<Number>() {
+        vBox.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                 System.out.println("Width: " + newSceneWidth);
                 if(board != null){
@@ -52,16 +60,17 @@ public class CheckerboardFXMLController implements Initializable, Startable {
             } 
         });
         
-        boardPane.heightProperty().addListener(new ChangeListener<Number>() {
+        vBox.heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 System.out.println("Height: " + newSceneHeight);
                 if(board != null){
                     int numRows = board.getNumRows();
                     int numCols = board.getNumCols();
                     double width = board.getWidth();
+                    double menuBarHeight = menuBar.getHeight();
                     Color lightColor = board.getLightColor();
                     Color darkColor = board.getDarkColor();
-                    refresh(new CheckerBoard(numRows, numCols, (double) width, (double) newSceneHeight, lightColor, darkColor));
+                    refresh(new CheckerBoard(numRows, numCols, width, (double) newSceneHeight - menuBarHeight, lightColor, darkColor));
                 }
             } 
         });

@@ -29,8 +29,6 @@ public class CheckerboardFXMLController implements Initializable, Startable {
     
     private Stage stage;
     
-    @FXML
-    private AnchorPane boardPane;
     
     @FXML
     private VBox vBox;
@@ -38,7 +36,8 @@ public class CheckerboardFXMLController implements Initializable, Startable {
     @FXML
     private MenuBar menuBar;
     
-    CheckerBoard board;
+    private CheckerBoard board;
+    private AnchorPane boardPane;
     
     /**
      * Initializes the controller class.
@@ -46,9 +45,15 @@ public class CheckerboardFXMLController implements Initializable, Startable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        
+    }
+
+    public void start(Stage stage){
+        this.stage = stage;
+        
         vBox.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                System.out.println("Width: " + newSceneWidth);
+            
                 if(board != null){
                     int numRows = board.getNumRows();
                     int numCols = board.getNumCols();
@@ -62,7 +67,7 @@ public class CheckerboardFXMLController implements Initializable, Startable {
         
         vBox.heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                System.out.println("Height: " + newSceneHeight);
+            
                 if(board != null){
                     int numRows = board.getNumRows();
                     int numCols = board.getNumCols();
@@ -74,44 +79,29 @@ public class CheckerboardFXMLController implements Initializable, Startable {
                 }
             } 
         });
-    }
-
-    public void start(Stage stage){
-        this.stage = stage;
-        board = new CheckerBoard(8,8,boardPane.getWidth(),boardPane.getHeight());
+        
+        board = new CheckerBoard(8,8,vBox.getWidth(),vBox.getHeight()-menuBar.getHeight());
         refresh(board);
     }
     
     @FXML
-    public void handle16Board(ActionEvent event){
-        Color lightColor = board.getLightColor();
-        Color darkColor = board.getDarkColor();
-        board = new CheckerBoard(16,16,boardPane.getWidth(),boardPane.getHeight(), lightColor, darkColor);
-        refresh(board);
+    public void handleSixteenBoard(ActionEvent event){
+        updateBoardSize(16, 16);
     }
     
     @FXML
-    public void handle10Board(ActionEvent event){
-        Color lightColor = board.getLightColor();
-        Color darkColor = board.getDarkColor();
-        board = new CheckerBoard(10,10,boardPane.getWidth(),boardPane.getHeight(), lightColor, darkColor);
-        refresh(board);
+    public void handleTenBoard(ActionEvent event){
+        updateBoardSize(10, 10);
     }
     
     @FXML
-    public void handle8Board(ActionEvent event){
-        Color lightColor = board.getLightColor();
-        Color darkColor = board.getDarkColor();
-        board = new CheckerBoard(8,8,boardPane.getWidth(),boardPane.getHeight(), lightColor, darkColor);
-        refresh(board);
+    public void handleEightBoard(ActionEvent event){
+        updateBoardSize(8, 8);
     }
     
     @FXML
-    public void handle3Board(ActionEvent event){
-        Color lightColor = board.getLightColor();
-        Color darkColor = board.getDarkColor();
-        board = new CheckerBoard(3,3,boardPane.getWidth(),boardPane.getHeight(), lightColor, darkColor);
-        refresh(board);
+    public void handleThreeBoard(ActionEvent event){
+        updateBoardSize(3, 3);
     }
     
     @FXML
@@ -131,10 +121,18 @@ public class CheckerboardFXMLController implements Initializable, Startable {
     }
     
     private void refresh(CheckerBoard board){
-        boardPane.getChildren().clear();
-        boardPane.getChildren().add(board.build());
-        this.board = board;
-        System.out.println("in refresh");
         
+        vBox.getChildren().remove(boardPane);
+        boardPane = board.build();
+        vBox.getChildren().add(boardPane);
+        this.board = board;
+        
+    }
+    
+    private void updateBoardSize(int numberOfRows, int numberOfColumns){
+        Color lightColor = board.getLightColor();
+        Color darkColor = board.getDarkColor();
+        board = new CheckerBoard(numberOfRows, numberOfColumns, boardPane.getWidth(),boardPane.getHeight(), lightColor, darkColor);
+        refresh(board);
     }
 }

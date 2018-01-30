@@ -12,10 +12,10 @@
         <menus>
           <Menu mnemonicParsing="false" text="Grid">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#handle16Board" text="16 x 16" />
-                  <MenuItem mnemonicParsing="false" onAction="#handle10Board" text="10 x 10" />
-                  <MenuItem mnemonicParsing="false" onAction="#handle8Board" text="8 x 8" />
-                  <MenuItem mnemonicParsing="false" onAction="#handle3Board" text="3 x 3" />
+              <MenuItem mnemonicParsing="false" onAction="#handleSixteenBoard" text="16 x 16" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleTenBoard" text="10 x 10" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleEightBoard" text="8 x 8" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleThreeBoard" text="3 x 3" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Colors">
@@ -26,6 +26,5 @@
           </Menu>
         </menus>
       </MenuBar>
-      <AnchorPane fx:id="boardPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
    </children>
 </VBox>
